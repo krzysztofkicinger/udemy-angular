@@ -169,3 +169,52 @@ Example:
 ```
 
 
+### Event Bindings
+
+Event binding are used to handle events. You can bind to all properties and events that are eligible for particular element.
+
+**How to create Event Binding?**
+
+1. Create Event Handler in the component:
+
+```js
+onCreateServer() {
+    this.serverCreationStatus = 'Server was created!';
+}
+```
+
+2. Set Event Handler for specific event:
+
+```html
+<button ...
+        (click)="onCreateServer()">
+  Add Server
+</button>
+```
+
+> IMPORTANT: For event we bind be **event's name** not **on...**
+
+**How to pass data to event handler?**
+
+The event object can be passed to the event handler through **$event** object. This object is automatically created when event is triggered. **$event** will be the data emitted for that event.
+
+
+Example:
+
+```html
+<input id="name" type="text" (input)="onUpdateServerName($event)"/>
+```
+
+```js
+onUpdateServerName(event) {
+    console.log(event.target.value);
+}
+```
+
+or
+
+```js
+onUpdateServerName(event: Event) {
+    this.serverName = (<HTMLInputElement> event.target).value;
+}
+```
