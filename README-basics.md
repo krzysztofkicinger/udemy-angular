@@ -146,8 +146,26 @@ Syntax:
 {{ expression }}
 ```
 
+Example:
+
+```html
+<p>Server with ID {{ serverId }} is {{ serverStatus }} (with method: {{ getServerStatus() }})</p>
+```
+
 ### Property Binding
 
+Used for binding HTML attributes that should be able to change its value.
 
+Syntax:
+
+```text
+[attribute]="value"
+```
+
+Example:
+
+```html
+<button class="btn btn-primary" [disabled]="allowNewServer">Add Server</button>
+```
 
 
