@@ -103,8 +103,47 @@ export class ServerComponent {
 
 1. Type: ``ng generate component <component-name>`` or ``ng g c <component-name>``
 
+
+### How to add styles to component?
+
+```text
+@Component({
+    ...
+    styleUrls: ['./app.component.css'],
+    styles: [`
+      h1 {
+        color: lightblue;
+      } 
+    `]
+})
+```
+
 ### Components properties
 
-* selector: String (required) - name of the component
-* templateUrl: String (required, or template)- relative path to the template file
-* template: String (required, or templateUrl) - components content (the same as template file, but written in String)
+* **selector: String** (required) - name of the component, must be unique, there are few types of selector
+  * 'name' - element selector
+  * '[name]' - attribute selector
+  * '.name' - class selector
+* **templateUrl: String** (required, or template)- relative path to the template file
+* **template: String** (required, or templateUrl) - components content (the same as template file, but written in String)
+* **styleUrls: Array** - relative paths to css files
+* **styles: Array** - inline styles for component
+
+
+## Databindings
+
+**Databinding** - communication between components code (business logic) and html representation
+
+![Databindings](docs/databindings.png)
+
+### String Interpolation
+
+String interpolation's expression can be anything that can be casted to String. It can also be a ternary expression (but no other flow control statement).
+
+Syntax: 
+
+```text
+{{ expression }}
+```
+
+
