@@ -201,9 +201,13 @@ The event object can be passed to the event handler through **$event** object. T
 
 Example:
 
+Add in the component's template:
+
 ```html
 <input id="name" type="text" (input)="onUpdateServerName($event)"/>
 ```
+
+Add in the component's code (.ts):
 
 ```js
 onUpdateServerName(event) {
@@ -218,3 +222,24 @@ onUpdateServerName(event: Event) {
     this.serverName = (<HTMLInputElement> event.target).value;
 }
 ```
+
+### Two-way binding - ngModel
+
+To be able to use ngModel, the **FormModule** needs to be added to the **imports[]** array in the module the component resides in.
+
+Syntax:
+
+```text
+[ngModel]="<property_name>"
+```
+
+Example:
+
+First create **serverName** property in the component and then add in the component's template:
+
+```html
+<input id="name" type="text" [ngModel]="serverName" />
+```
+
+## Directives
+

@@ -1,5 +1,9 @@
+<!--<label for="name">Server Name</label>-->
+<!--<input id="name" type="text" (input)="onUpdateServerName($event)"/>-->
+
 <label for="name">Server Name</label>
-<input id="name" type="text" (input)="onUpdateServerName($event)"/>
+<input id="name" type="text" [(ngModel)]="serverName" />
+
 
 
 <button class="btn btn-primary"
