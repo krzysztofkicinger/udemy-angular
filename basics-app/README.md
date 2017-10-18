@@ -103,3 +103,8 @@ export class ServerComponent {
 
 1. Type: ``ng generate component <component-name>`` or ``ng g c <component-name>``
 
+### Components properties
+
+* selector: String (required) - name of the component
+* templateUrl: String (required, or template)- relative path to the template file
+* template: String (required, or templateUrl) - components content (the same as template file, but written in String)
