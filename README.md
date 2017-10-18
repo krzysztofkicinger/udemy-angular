@@ -41,3 +41,35 @@ Run e2e tests (using Protractor)
 ng e2e
 ```
 
+## How to add bootstrap to the project?
+
+First install Bootstrap to the project:
+
+```bash
+npm install --save bootstrap
+```
+
+Add entry to the `styles` section in the `.angular-cli.json` file:
+
+```json
+"styles": [
+    "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+    ...
+]
+```
+
+## Project descriptions
+
+**Section 2 - The Basics**
+
+Project: `basics-app`
+
+Summary:
+* Components
+* CLI
+* Selectors
+* Data bindings
+* String interpolation
+* Property binding
+* Event Binding
+
