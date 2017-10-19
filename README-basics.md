@@ -102,7 +102,7 @@ export class ServerComponent {
 ### How to automatically create new component?
 
 1. Type: ``ng generate component <component-name>`` or ``ng g c <component-name>``
-
+2. If you don't want to create spec files then pass **--spec false**
 
 ### How to add styles to component?
 

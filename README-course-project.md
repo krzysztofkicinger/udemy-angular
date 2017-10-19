@@ -1,0 +1,1 @@
+![Course Project Plannigs](./docs/course-project-planning.png)
