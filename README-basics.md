@@ -230,7 +230,7 @@ To be able to use ngModel, the **FormModule** needs to be added to the **imports
 Syntax:
 
 ```text
-[ngModel]="<property_name>"
+[(ngModel)]="<property_name>"
 ```
 
 Example:
@@ -238,8 +238,97 @@ Example:
 First create **serverName** property in the component and then add in the component's template:
 
 ```html
-<input id="name" type="text" [ngModel]="serverName" />
+<input id="name" type="text" [(ngModel)]="serverName" />
 ```
 
 ## Directives
 
+Directives - instructions in the DOM (instructions to replace particular selector, value etc. with some logic, for example: components are directives with a template)
+
+![Directives](docs/directives.png)
+
+### Built-in directives
+
+**Structural directive**
+* Changes the structure of the DOM
+* Prefixed with *
+
+**ngIf**
+* Structural Directive
+* Conditionally adds or removes element from the DOM
+* Can be used with else statement with local reference to some template
+
+```html
+<p *ngIf="serverCreated">
+  Server was created! Name is {{serverName}}
+</p>
+```
+
+```
+<p *ngIf="serverCreated; else noServer">
+  Server was created! Name is {{serverName}}
+</p>
+
+<ng-template #noServer>
+  <p>
+    No server was created!
+  </p>
+</ng-template>
+```
+
+**ngFor**
+
+* Attribute directive
+* Expression syntax: **let <variable_name> of <array>; let i = index**
+* It is set to the element that should be replicated
+* Accessing current iteration index: **let i = index** (start at 0)
+
+```
+<app-server *ngFor="let server of servers"></app-server>
+```
+
+**Attribute directives**
+
+* Attribute directives do not add or remove elements
+* They change the element they were placed on
+* Used with square brackets
+
+> IMPORTANT: Square brackets are not the part of the directive name. Square brackets indicate that we want to bind to some property on this directive and this property happens to also be the same name as directive name.
+
+**ngStyle**
+
+* Expects JS object
+* Dynamically updates the styles of the elements
+
+```html
+<p [ngStyle]="{backgroundColor: getColor()}">
+  Server with ID {{ serverId }} is {{ serverStatus }} (with method: {{ getServerStatus() }})
+</p>
+```
+
+
+**ngClass**
+
+* Expects JS object:
+    * Key - the class name
+    * Value - boolean that points if the class should be added or not
+* Dynamically adds or removes classes from elements
+
+```
+<p [ngClass]="{online: serverStatus === 'online'}">
+    {{ getServerStatus() }}
+</p>
+```
+
+
+### Local References
+
+* Starts with #
+
+```
+<ng-template #noServer>
+  <p>
+    No server was created!
+  </p>
+</ng-template>
+```
