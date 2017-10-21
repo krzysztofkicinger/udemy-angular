@@ -31,4 +31,12 @@ export class AppComponent {
         });
     }
 
+    onChangeFirstElement() {
+        this.serverElements[0].name = "New name";
+    }
+
+    onRemoveFirstElement() {
+        this.serverElements.splice(0, 1);
+    }
+
 }

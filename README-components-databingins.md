@@ -236,10 +236,85 @@ In order to change that behavior we need to use **ng-content**.
 ## Component Lifecycle
 
 * **ngOnChanges** - called after a bound input property changes (multiple times)
+
+```
+ngOnChanges(changes: SimpleChanges) {
+    console.log('ngOnChanges Called!', changes);
+}
+```
+
 * **ngOnInit** - called once the component is initialized (after the constructor)
+
+```
+ngOnInit() {
+    console.log('ngOnInit Called!');
+}
+```
+
 * **ngDoCheck** - called during every change detection run
+
+```
+ngDoCheck() {
+    console.log('ngDoCheck Called!');
+}
+```
+
 * **ngAfterContentInit** - called after content (ng-content) has been projected into view
+
+```
+ngAfterContentInit() {
+    console.log('ngAfterContentInit Called!');
+}
+```
+
 * **ngAfterContentChecked** - called every time the projected content has been changed
+
+```
+ngAfterContentChecked() {
+    console.log('ngAfterContentChecked Called!');
+}
+```
+
 * **ngAfterViewInit** - called after the component's view (and child views) has been initialized
+
+```
+ngAfterViewInit() {
+    console.log('ngAfterViewInit Called!');
+}
+```
+
 * **ngAfterViewChecked** - called every time the view (and child views) have been checked
+
+```
+ngAfterViewChecked() {
+    console.log('ngAfterViewChecked Called!');
+}
+```
+
 * **ngOnDestroy** - called once the component is about to be destroyed
+
+```
+ngOnDestroy() {
+    console.log('ngOnDestroy Called!');
+}
+```
+
+## How to access **ng-content** with **@ContentChild**?
+
+1. Add Local Reference for element within components tag:
+
+```
+<app-server-element>
+    <p #contentParagraph>
+        <strong *ngIf="server.type === 'server'" style="color: red">{{ server.content }}</strong>
+        <em *ngIf="server.type === 'blueprint'">{{ server.content }}</em>
+    </p>
+</app-server-element>
+```
+
+2. Add to the child component (app-server-element) the **@ContentChild** decorated property:
+
+```
+@ContentChild('contentParagraph')
+paragraph: ElementRef;
+```
