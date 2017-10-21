@@ -117,3 +117,129 @@ These event handlers will use the event emitters to inform 'subscribers' that ev
 
 ## View Encapsulation
 
+Default behavior: Each component has its own styles set. This is achieved by creating unique attributes for components and changing the selector to match element with the attribute.
+
+**How to change default behavior?**
+
+1. Override **encapsulation** attribute from **@Component**
+2. Possible values:
+    * ViewEncapsulation.Emulated - (default) each component has separate set of styles
+    * ViewEncapsulation.None - styles defined in the component will be applied globally (no encapsulation)
+    * ViewEncapsulation.Native - uses Shadow DOM
+
+```
+@Component({
+    ...,
+    encapsulation: ViewEncapsulation.None
+})
+```
+
+## Using Local References in Templates
+
+* Useful when we do not need to create two-way binding, we need to get the value of the input element to perform some logic.
+* Can be placed on **any** HTML element
+* Local References can be used ONLY in the HTML template, not in the
+* Syntax: **#\<name>**
+
+### How to use Local References?
+
+1. Create Local Reference to some element in the template:
+
+```
+<input type="text"
+               class="form-control"
+               #serverNameInput>
+```
+
+2. Pass it as the attribute to the method (this is an HTML element)
+
+```
+<button
+        class="btn btn-primary"
+        (click)="onAddServer(serverNameInput)">Add Server
+</button>
+```
+
+3. Get the value of the element (do sth with them):
+
+```
+onAddServer(serverNameInput: HTMLInputElement) {
+    this.serverCreated.emit({
+        serverName: serverNameInput.value,
+        serverContent: this.newServerContent
+    });
+}
+```
+
+## Getting access to Local References & DOM from the component
+
+1. Create a Local Reference in the HTML template:
+
+```
+<input type="text"
+               class="form-control"
+               #serverContentInput>
+```
+
+2. Create property of **ElementRef** type in the component and decorate it with **@ViewChild**
+
+```
+@ViewChild('serverContentInput')
+serverContentInput: ElementRef;
+```
+
+3. The **@ViewChild** can be passed a name to the Local Reference or the class of the component that we want to refer to.
+4. Get the value of the element through **nativeElement** property:
+
+```
+onAddServer(serverNameInput: HTMLInputElement) {
+    this.serverCreated.emit({
+        serverName: serverNameInput.value,
+        serverContent: this.serverContentInput.nativeElement.value
+    });
+}
+```
+
+## ng-content - Projecting Content into Components
+
+When using another component Angular by default will remove the content defined within the opening and closing tag of the parent.
+
+```
+<app-server-element>
+    CONTENT BY DEFAULT WILL BE REMOVED WHEN REPLACED BY <app-server-component>
+</app-server-element>
+```
+
+In order to change that behavior we need to use **ng-content**.
+
+1. Place the **\<ng-content>** element in the child component (server-element) which we want to pass the content to
+
+```
+<div class="panel-body">
+    <ng-content></ng-content>
+  </div>
+```
+
+2. Add the content within the opening and closing tags of the component in the parent component (app-component)
+
+```
+<app-server-element
+        *ngFor="let server of serverElements"
+        [serverElement]="server">
+    <p>
+        <strong *ngIf="server.type === 'server'" style="color: red">{{ server.content }}</strong>
+        <em *ngIf="server.type === 'blueprint'">{{ server.content }}</em>
+    </p>
+</app-server-element>
+```
+
+## Component Lifecycle
+
+* **ngOnChanges** - called after a bound input property changes (multiple times)
+* **ngOnInit** - called once the component is initialized (after the constructor)
+* **ngDoCheck** - called during every change detection run
+* **ngAfterContentInit** - called after content (ng-content) has been projected into view
+* **ngAfterContentChecked** - called every time the projected content has been changed
+* **ngAfterViewInit** - called after the component's view (and child views) has been initialized
+* **ngAfterViewChecked** - called every time the view (and child views) have been checked
+* **ngOnDestroy** - called once the component is about to be destroyed
