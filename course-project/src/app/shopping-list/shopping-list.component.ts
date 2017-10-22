@@ -20,4 +20,14 @@ export class ShoppingListComponent implements OnInit {
   ngOnInit() {
   }
 
+  addIngredientCallback(newIngredient: Ingredient) {
+    const ingredient = this.ingredients.find((i) => i.name === newIngredient.name);
+    if(ingredient) {
+      console.log(ingredient);
+      ingredient.amount = Number(ingredient.amount) + Number(newIngredient.amount);
+    } else {
+      this.ingredients.push(newIngredient);
+    }
+  }
+
 }
