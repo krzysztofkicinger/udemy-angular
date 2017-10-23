@@ -324,3 +324,12 @@ set unless(condition: boolean) {
     <p *ngSwitchDefault>Value is default</p>
 </div>
 ```
+
+## How to attach to custom host element class?
+
+This binds to the "open" class of the host element
+
+```
+@HostBinding('class.open')
+private isOpen = false;
+```
