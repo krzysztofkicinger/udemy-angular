@@ -15,7 +15,7 @@ export class RecipeItemComponent {
   constructor(private recipeService: RecipeService) { }
 
   onSelectRecipe(recipe: Recipe) {
-    this.recipeService.selectRecipe.emit(recipe);
+    this.recipeService.recipeSelected.emit(recipe);
   }
 
 }
