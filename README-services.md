@@ -18,7 +18,24 @@ Understanding the Hierarchical Injector:
 
 Levels of Hierarchical Injector Components:
 * **Application-wide** - if we add to the module (AppModule), then the same instance is available application-wide
-* **
+
+
+* **App-component-wide** - if we add to the component (AppComponent), then same instance of the service is available for **all components** (but **not for other services**)
+
+
+* **Single-component** - same instance of Service is available for **the component and all its child components**, you can achieve that by adding a class name to the **providers** table of the **@Component** annotation
+
+```
+@Component({
+    ...,
+    providers: [LoggingService]
+})
+export class NewAccountComponent {
+
+    constructor(private loggingService: LoggingService) { ... }
+
+}
+```
 
 ## How to create a service?
 
