@@ -154,3 +154,173 @@ ngOnInit() {
 
 ### Using HostListener to listen to Host Events
 
+We want to invoke the directive action only when some event happened.
+
+1. Create a method within the component
+
+```
+mouseover(eventData: Event) {
+
+}
+```
+
+2. Decorate the method with the **@HostListener** which takes as an argument the name of the event the handler should be invoked for:
+
+```
+@HostListener('mouseenter')
+```
+
+3. Implement logic within the method body
+
+### @HostBinding - binds the property of the host element
+
+1. Create a property in the directive
+2. Decorate the property with the **@HostBinding** which takes as an argument the name of the property of the host element that should be bind with the directive
+
+```
+@HostBinding('style.backgroundColor')
+private backgroundColor: string;
+```
+
+3. Set the initial value of the property (otherwise an error occurs):
+
+```
+@HostBinding('style.backgroundColor')
+private backgroundColor: string = 'transparent';
+```
+
+4. Use it in the business logic
+
+
+## Binding to Directive Properties
+
+1. Create an Input properties (just as for the component)
+
+```
+@Input()
+private defaultColor: string = 'transparent';
+
+@Input()
+private highlightColor: string = 'lightblue';
+```
+
+2. Add properties to the default directive:
+
+```
+<p  appBetterHighlight
+    [defaultColor]="'lightyellow'"
+    [highlightColor]="'red'">
+        Style me with better directive
+</p>
+```
+
+> IMPORTANT: We are passing a String into the attribute [highlightColor]="**'red'**"
+
+3. If you have just one property to bind, then may provide an alias for the an input that matches the name of the directive:
+
+```
+@Input('appBetterHighlight')
+highlightColor: string = 'lightblue';
+```
+
+## What happens behind the scenes on Structural Directives?
+
+Angular transforms them to something else:
+
+```
+<ng-template [ngIf]="!onlyOdd">
+  <span>
+    <li class="list-group-item"
+        [ngClass]="{ even: number % 2 === 0 }"
+        *ngFor="let number of evenNumbers">
+      {{number}}
+    </li>
+  </span>
+</ng-template>
+```
+
+* Angular translates the structural directive (*) to the ngTemplate with a simple binding for the structural directive.
+
+## Building a Structural Directive
+
+1. Create new file with the exported class annotated with **@Directive**
+
+```
+@Directive({
+  selector: '[appUnless]'
+})
+export class UnlessDirective {
+
+  constructor() { }
+
+}
+```
+
+2. (Optional) Create an input property:
+
+> IMPORTANT: We want to execute the method whenever attribute changes so we need to use **set** keyword on the **METHOD** (set keyword is the setter for the property)
+
+```
+@Input()
+set unless(condition: boolean) {
+    if(!condition) {
+        // TODO: display
+    } else {
+        // TODO do not display
+    }
+}
+```
+
+3. Get access to the **ng-template** component that the directive will reside on (after transformation) and access to the place where DOM element should be injected:
+    * templateRef: TemplateRef<T> - what should be displayed
+    * viewContainerRef: ViewContainerRef - where should be displayed
+
+```
+constructor(private template: TemplateRef<any>,
+            private container: ViewContainerRef) {
+}
+```
+
+4. Perform the logic of the structural directive:
+    * createEmbeddedView - add template to the DOM
+    * clear - clear particular DOM element
+
+```
+@Input()
+set unless(condition: boolean) {
+    if (!condition) {
+      this.container.createEmbeddedView(this.template);
+    } else {
+      this.container.clear();
+    }
+}
+```
+
+5. Add alias for the input that matches the directive name:
+
+```
+@Input('appUnless')
+```
+
+6. Add directive to the template element:
+
+```
+<span *appUnless="onlyOdd">
+  <li class="list-group-item"
+      [ngClass]="{ even: number % 2 === 0 }"
+      *ngFor="let number of evenNumbers">
+    {{number}}
+  </li>
+</span>
+```
+
+## ngSwitch
+
+```
+<div [ngSwitch]="">
+    <p *ngSwitchCase="5">Value is 5</p>
+    <p *ngSwitchCase="10">Value is 10</p>
+    <p *ngSwitchCase="100">Value is 100</p>
+    <p *ngSwitchDefault>Value is default</p>
+</div>
+```
