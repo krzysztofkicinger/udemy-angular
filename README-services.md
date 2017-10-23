@@ -17,11 +17,38 @@ Understanding the Hierarchical Injector:
 * Service in the child component will be the same as the one of the parent
 
 Levels of Hierarchical Injector Components:
-* **Application-wide** - if we add to the module (AppModule), then the same instance is available application-wide
+* **Application-wide** - if we add to the module (AppModule), then the same instance is available application-wide, you can achieve that by adding a class name to the **providers** table of the **@NgModule** annotation
 
+```
+@NgModule({
+    ...,
+    providers: [],
+})
+export class AppModule { ... }
+```
 
 * **App-component-wide** - if we add to the component (AppComponent), then same instance of the service is available for **all components** (but **not for other services**)
+    * Add it to the **providers** table of parent component
+    * Do **not** add it as a provider to the child component, but inject it in the constructor
 
+```
+@Component({
+    ...,
+    providers: [ AccountsService ]
+})
+export class AppComponent { ... }
+```
+
+```
+@Component({
+    ...
+})
+export class AccountComponent {
+
+    constructor(private accountService: AccountsService) {}
+
+}
+```
 
 * **Single-component** - same instance of Service is available for **the component and all its child components**, you can achieve that by adding a class name to the **providers** table of the **@Component** annotation
 
@@ -77,3 +104,17 @@ export class NewAccountComponent {
 }
 ```
 
+## How to inject service to a service?
+
+1. Annotate the service to which another service is injected using **@Injectable**
+
+```
+@Injectable()
+export class AccountsService {
+
+    constructor(private loggingService: LoggingService) {}
+
+}
+```
+
+> @Injectable() = to this service we are able to inject another service
