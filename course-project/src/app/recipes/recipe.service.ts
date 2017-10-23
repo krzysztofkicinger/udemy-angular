@@ -1,4 +1,5 @@
 import {Recipe} from "../../model/recipe.model";
+import {EventEmitter} from "@angular/core";
 
 export class RecipeService {
 
@@ -8,8 +9,14 @@ export class RecipeService {
     new Recipe("Test Recipe 3", "A simple recipe 3", "https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/frying-pan-pizza-easy-recipe-collection.jpg")
   ];
 
+  selectRecipe = new EventEmitter<Recipe>();
+
+  /**
+   * Returns exact copy of the array - slice() without parameters
+   *
+   * @returns {Recipe[]}
+   */
   getRecipes() {
-    // Returns exact copy of the array - slice() without parameters
     return this.recipes.slice();
   }
 
