@@ -14,14 +14,14 @@ export class RecipeDetailComponent {
   @Input()
   recipe: Recipe;
 
-  constructor(private shoppingListService: ShoppingListService) {}
+  constructor(private recipeService: RecipeService) {}
 
   isRecipeSelected() {
     return !isNullOrUndefined(this.recipe);
   }
 
   addToShoppingList() {
-    this.shoppingListService.addIngredients(this.recipe.ingredients);
+    this.recipeService.addToShoppingList(this.recipe);
   }
 
 }
