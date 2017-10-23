@@ -23,7 +23,7 @@ export class ShoppingEditComponent {
   onAddIngredient() {
     this.shoppingListService.addIngredient(new Ingredient(
       this.nameInput.nativeElement.value,
-      <number> this.amountInput.nativeElement.value
+      this.amountInput.nativeElement.value
     ));
   }
 
