@@ -1,5 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {LoggingService} from "../services/logging.service";
+import {Component, OnInit} from '@angular/core';
 import {AccountsService} from "../services/accounts.service";
 
 @Component({
@@ -7,9 +6,16 @@ import {AccountsService} from "../services/accounts.service";
     templateUrl: './new-account.component.html',
     styleUrls: ['./new-account.component.css']
 })
-export class NewAccountComponent {
+export class NewAccountComponent implements OnInit {
 
-    constructor(private accountService: AccountsService) {}
+    constructor(private accountService: AccountsService) {
+    }
+
+    ngOnInit() {
+        this.accountService.statusUpdated.subscribe(
+            (status: string) => alert(`Received new status: ${status}`)
+        );
+    }
 
     onCreateAccount(accountName: string, accountStatus: string) {
         this.accountService.addAccount(accountName, accountStatus);

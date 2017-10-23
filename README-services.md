@@ -118,3 +118,44 @@ export class AccountsService {
 ```
 
 > @Injectable() = to this service we are able to inject another service
+
+## Cross-Component communication with a Service
+
+1. Create an EventEmitter/Observable in a Service:
+
+```
+@Injectable()
+export class AccountsService {
+
+    statusUpdated = new EventEmitter<string>();
+
+}
+```
+
+2. Emit an event from one component:
+
+```
+@Component({ ... })
+export class AccountComponent {
+
+    onSetTo(status: string) {
+        this.accountService.statusUpdated.emit(status);
+    }
+
+}
+```
+
+3. Subscribe in another service for emitted event:
+
+```
+@Component({ ... })
+export class NewAccountComponent implements OnInit {
+
+    ngOnInit() {
+        this.accountService.statusUpdated.subscribe(
+            (status: string) => alert(`Received new status: ${status}`)
+        );
+    }
+
+}
+```
