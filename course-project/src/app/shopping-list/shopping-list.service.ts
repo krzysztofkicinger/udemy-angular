@@ -15,6 +15,10 @@ export class ShoppingListService {
     return this._ingredients.slice();
   }
 
+  addIngredients(ingredients: Ingredient[]) {
+    ingredients.forEach(i => this.addIngredient(i));
+  }
+
   addIngredient(newIngredient: Ingredient) {
     const ingredient = this._ingredients.find((i) => i.name === newIngredient.name);
     if (ingredient) {

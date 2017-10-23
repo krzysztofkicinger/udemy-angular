@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Recipe} from "../../../model/recipe.model";
 import {isNullOrUndefined} from "util";
 import {RecipeService} from "../recipe.service";
+import {ShoppingListService} from "../../shopping-list/shopping-list.service";
 
 @Component({
   selector: 'app-recipe-detail',
@@ -13,8 +14,14 @@ export class RecipeDetailComponent {
   @Input()
   recipe: Recipe;
 
+  constructor(private shoppingListService: ShoppingListService) {}
+
   isRecipeSelected() {
     return !isNullOrUndefined(this.recipe);
+  }
+
+  addToShoppingList() {
+    this.shoppingListService.addIngredients(this.recipe.ingredients);
   }
 
 }
