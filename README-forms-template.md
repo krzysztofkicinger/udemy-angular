@@ -288,4 +288,51 @@ this.form.form.patchValue({
 ## How to use Form Data?
 
 
+1. Access the form using @ViewChild element
 
+```typescript
+@ViewChild('form')
+private form: NgForm;
+```
+
+2. Use the **value** property to access controls values:
+
+```
+onSubmit() {
+    this.user.username = this.form.value.userData.username;
+    this.user.email = this.form.value.userData.email;
+    this.user.secretQuestion = this.form.value.secret;
+    this.user.answer = this.form.value.questionAnswer;
+    this.user.gender = this.form.value.gender;
+};
+```
+
+## How to reset the form?
+
+
+1. Access the form using @ViewChild element
+
+```typescript
+@ViewChild('form')
+private form: NgForm;
+```
+
+2. (Solution 1) Reset the form:
+
+```
+this.form.reset();
+```
+
+2. (Solution 2) Reset the form with default values:
+
+```
+this.form.reset({
+    userData: {
+        username: '',
+        email: ''
+    },
+    secret: 'pet',
+    questionAnswer: '',
+    gender: 'male'
+});
+```

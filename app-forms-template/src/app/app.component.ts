@@ -50,6 +50,16 @@ export class AppComponent {
 
     console.log(form);
     console.log(`From the @ViewChild: ${this.form}`);
-  };
+
+    this.form.reset({
+      userData: {
+        username: '',
+        email: ''
+      },
+      secret: 'pet',
+      questionAnswer: '',
+      gender: 'male'
+    });
+  }
 
 }
