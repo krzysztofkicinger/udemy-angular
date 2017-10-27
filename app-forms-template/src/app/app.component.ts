@@ -15,6 +15,14 @@ export class AppComponent {
   answer: string;
   genders = [ 'male', 'female' ];
 
+  user = {
+    username: '',
+    email: '',
+    secretQuestion: '',
+    answer: '',
+    gender: '',
+  };
+
   suggestUserName() {
     const suggestedName = 'Superuser';
     // this.form.setValue({
@@ -34,6 +42,12 @@ export class AppComponent {
   }
 
   onSubmit(form: NgForm) {
+    this.user.username = this.form.value.userData.username;
+    this.user.email = this.form.value.userData.email;
+    this.user.secretQuestion = this.form.value.secret;
+    this.user.answer = this.form.value.questionAnswer;
+    this.user.gender = this.form.value.gender;
+
     console.log(form);
     console.log(`From the @ViewChild: ${this.form}`);
   };
