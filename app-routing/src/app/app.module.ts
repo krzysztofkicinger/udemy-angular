@@ -13,6 +13,11 @@ import {ServerComponent} from './servers/server/server.component';
 import {ServersService} from './servers/servers.service';
 import {PageNotFoundComponentComponent} from './page-not-found-component/page-not-found-component.component';
 import {AppRoutingModule} from "./app.routing.module";
+import {AuthGuard} from "./auth-guard.service";
+import {AuthService} from "./auth.service";
+import {CanDeactivateGuard} from "./can-deactivate-guard.service";
+import {ErrorPageComponent} from "./error-page/error-page.component";
+import {ServerResolver} from "./server-resolver.service";
 
 
 @NgModule({
@@ -24,7 +29,8 @@ import {AppRoutingModule} from "./app.routing.module";
     UserComponent,
     EditServerComponent,
     ServerComponent,
-    PageNotFoundComponentComponent
+    PageNotFoundComponentComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +38,13 @@ import {AppRoutingModule} from "./app.routing.module";
     HttpModule,
     AppRoutingModule
   ],
-  providers: [ServersService],
+  providers: [
+    ServersService,
+    AuthService,
+    AuthGuard,
+    CanDeactivateGuard,
+    ServerResolver
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

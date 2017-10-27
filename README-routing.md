@@ -478,3 +478,139 @@ Export points all modules that should be available for another module that will 
 export class AppModule {
 }
 ```
+
+## How to pass static data to Route's component?
+
+1. Go to the component and define a property (do not bind it):
+
+```
+export class ErrorPageComponent implements OnInit {
+
+  errorMessage: String;
+
+}
+```
+
+2. Go to the Route definition and add **data** property with object that represents static data:
+
+```
+{
+    path: 'not-found',
+    component: ErrorPageComponent,
+    data: {
+      message: 'Page not found!'
+    }
+}
+```
+
+3. Access static data object through **ActivatedRouteSnapshot**
+
+```
+export class ErrorPageComponent implements OnInit {
+
+  errorMessage: String;
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+      // this.errorMessage = this.routeSnapshot.data['message'];
+      this.route.data.subscribe(
+        (data: Data) => this.errorMessage = data['message']
+      )
+    }
+
+  get routeSnapshot() : ActivatedRouteSnapshot {
+    return this.route.snapshot;
+  }
+
+}
+```
+
+## How to pass dynamic data to route?
+
+Problem: We have to fetch data before component will appear - we need to use a **Resolver**.
+
+Resolver is a service which allows us to run some code before a route is rendered. Resolver always renders a component at the end but it will do some pre-loading.
+
+1. Create a resolve service:
+
+```typescript
+export class ServerResolver implements Resolve<Server> {
+
+  resolve(route: ActivatedRouteSnapshot,
+            state: RouterStateSnapshot): Observable<Server> | Promise<Server> | Server {
+      return this.serversService.getServer(+route.params['id']);
+  }
+
+}
+```
+
+2. Add resolver to **providers** of the NgModule:
+
+```
+@NgModule({
+  providers: [
+    ...,
+    ServerResolver
+  ],
+})
+```
+
+3. Add resolve to route:
+
+```
+{
+        path: ':id',
+        component: ServerComponent,
+        resolve: {
+          server: ServerResolver
+        }
+}
+```
+
+**resolve** property takes the JS object whose keys are the names of the properties that resolver returns the value for.
+
+4. Subscribe to **data** changes in the component that should be returned the data from the resolver:
+
+```
+{
+export class ServerComponent implements OnInit {
+    ...
+
+    ngOnInit() {
+        this.route.data.subscribe(
+            (data: Data) => this.initialize(data['server'])
+        );
+    }
+}
+```
+
+**Other Solution**
+
+* Perform logic in the **ngOnInit**
+* First show some spinner
+* Then add the observable that will subscribe to data loaded by the component
+* Close the spinner and add the information about the resource when acquired
+
+## Location Strategies
+
+When Angular application is hosted on production it is hosted by some server. This server will be responsible for resolving the location path first and there is great likelihood that it will not have the same routers as Angular applications.
+
+We have to enable # location.
+
+Go to the Routing Module and add hash in the **forRoot** method:
+
+```
+@NgModule({
+  imports: [
+    RouterModule.forRoot(appRoutes, {
+      useHash: true
+    })
+  ],
+  ...
+})
+```
+
+This says that the server will only be responsible for the part of the URL before the hash. Then the rest is treated as the fragment.
+
+The better solution would be to use htmlHistory mode.
