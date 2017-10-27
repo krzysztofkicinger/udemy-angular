@@ -12,6 +12,7 @@ export class AppComponent {
   private form: NgForm;
 
   defaultQuestion = 'pet';
+  answer: string;
 
   suggestUserName() {
     const suggestedName = 'Superuser';

@@ -165,3 +165,72 @@ select.ng-invalid.ng-touched {
 
 ## How to set default values with ngModel property binding?
 
+```
+<select
+    id="secret"
+    class="form-control"
+    [ngModel]="defaultQuestion"
+    name="secret">
+        <option value="pet">Your first Pet?</option>
+        <option value="teacher">Your first teacher?</option>
+</select>
+```
+
+## How to use ngModel with the Two-way Binding?
+
+Use Case: Instantly react to some changes of the value
+
+1. Add **[(ngModel)]** to the element:
+
+```
+<div class="form-group">
+    <textarea
+        class="form-control"
+        name="questionAnswer"
+        rows="3"
+        [(ngModel)]="answer">
+    </textarea>
+</div>
+```
+
+2. Create a property in the component
+3. Use variable in the template:
+
+```
+<p>Your reply: {{ answer }}</p>
+```
+
+## Three forms of ngModel**
+
+* **ngModel** (no binding) - just tells Angular that input is a Control
+* **\[ngModel]** (one-way binding) - give that Control a default value
+* **\[(ngModel)]** (two-way binding) - automatically update the value with each change
+
+## How to group Form Controls?
+
+Create a wrapping element and add an **ngModelGroup** directive to it
+
+```html
+<div id="user-data" ngModelGroup="user-data">
+    FORM CONTROLS...
+</div>
+```
+
+The value passed to **ngModelGroup** is the name of the group.
+
+It also has all extra properties provided by Angular:
+
+```
+<div id="user-data"
+     ngModelGroup="user-data"
+     #userData="ngModelGroup">
+```
+
+```
+<p *ngIf="userData.invalid && userData.touched">Enter correct user data.</p>
+```
+
+
+## How to handle Radio Buttons?
+
+
