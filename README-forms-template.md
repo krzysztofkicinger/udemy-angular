@@ -233,4 +233,59 @@ It also has all extra properties provided by Angular:
 
 ## How to handle Radio Buttons?
 
+```
+<div class="radio" *ngFor="let gender of genders">
+    <label>
+        <input
+            type="radio"
+            name="gender"
+            ngModel
+            [value]="gender" />
+        {{ gender }}
+    </label>
+</div>
+```
+
+All other things: default-values, two-way bindings, validation works the same.
+
+## How to set and path Form Values?
+
+1. Access the form using @ViewChild element
+
+```typescript
+@ViewChild('form')
+private form: NgForm;
+```
+
+2. (NOT RECOMMENDED) Invoke the **setValue** method with an object that exactly represent the form:
+    * We need to pass the entire form
+    * Values will be overridden
+    * (Advantage)
+
+```
+this.form.setValue({
+    userData: {
+        username: suggestedName,
+        email: ''
+    },
+    secret: 'pet',
+    questionAnswer: '',
+    gender: 'male'
+});
+```
+
+2. (RECOMMENDED) Use **patchValue** method on the FormGroup accesed from **form**:
+    * Updates only the parts of data we want
+
+```
+this.form.form.patchValue({
+  userData: {
+    username: suggestedName
+  }
+});
+```
+
+## How to use Form Data?
+
+
 
