@@ -274,7 +274,7 @@ this.form.setValue({
 });
 ```
 
-2. (RECOMMENDED) Use **patchValue** method on the FormGroup accesed from **form**:
+2. (RECOMMENDED) Use **patchValue** method on the FormGroup accessed from **form**:
     * Updates only the parts of data we want
 
 ```

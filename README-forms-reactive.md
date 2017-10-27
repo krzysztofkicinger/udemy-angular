@@ -222,3 +222,82 @@ Angular adds validation result errors on the individual controls/objects.
 
 ## How to create custom asynchronous validators?
 
+1. Create async validator (function that takes as parameter FormControl and returns Promise<any> | Observable<any>)
+
+```
+forbiddenEmails({value}: FormControl): Promise<any> | Observable<any> {
+    return new Promise((resolve, reject) =>
+      setTimeout(() => {
+        if (value === 'test@test.com') {
+          resolve({
+            'emailIsForbidden': true
+          });
+        }
+        resolve(null)
+      }, 1500)
+    )
+  }
+```
+
+2. Add this as the third argument of FormControl constructor invocation:
+
+```
+'email': new FormControl(null, [Validators.required, Validators.email], [ this.forbiddenEmails.bind(this) ]),
+```
+
+Angular adds **ng-pending** class when performing validation and then replaces it with **ng-valid** or **ng-invalid** one.
+
+## How to react to status or value changes?
+
+Observables for status and value changes - available on both Form and Control level.
+
+```
+this.signupForm.valueChanges.subscribe(
+      (value) => console.log(value)
+)
+```
+
+```
+this.signupForm.valueChanges.subscribe(
+      (value) => console.log(value)
+)
+```
+
+## How to set, patch, reset values?
+
+The same as in template-driven approach:
+
+**Set** - entire form's values update
+
+```
+this.signupForm.setValue({
+    userData: {
+        username: suggestedName,
+        email: ''
+    },
+    gender: 'male',
+    hobbies: []
+});
+```
+
+**Patch** - partial values update
+
+```
+this.signupForm.patchValue({
+  userData: {
+    username: suggestedName
+  }
+})
+```
+
+```
+this.form.reset();
+this.form.reset({
+    userData: {
+        username: suggestedName,
+        email: ''
+    },
+    gender: 'male',
+    hobbies: []
+ });
+``
