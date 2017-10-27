@@ -143,3 +143,25 @@ select.ng-invalid.ng-touched {
     border: 1px solid red;
 }
 ```
+
+3. Provide some message for invalid fields:
+
+    1. Create a local reference to the input element and set it to **ngModel**. This exposes some additional properties.
+
+    ```
+    <input
+                  ngModel
+                  name="email"
+                  required
+                  email
+                  #email="ngModel">
+    ```
+
+    2. Use **ngIf** to show the message or not
+
+    ```
+    <span class="help-block" *ngIf="email.invalid && email.touched">Please enter a valid email!</span>
+    ```
+
+## How to set default values with ngModel property binding?
+

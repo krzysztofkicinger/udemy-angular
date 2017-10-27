@@ -11,6 +11,8 @@ export class AppComponent {
   @ViewChild('form')
   private form: NgForm;
 
+  defaultQuestion = 'pet';
+
   suggestUserName() {
     const suggestedName = 'Superuser';
   }
