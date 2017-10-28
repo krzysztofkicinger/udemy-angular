@@ -23,4 +23,18 @@ export class ServersService {
     return this.http.put(`${this.baseUrl}/data.json`, servers, { headers });
   }
 
+  invalidRequest() {
+    return this.http.get(`${this.baseUrl}/data`)
+      .catch(
+        (errorResponse: Response) => {
+          console.log(errorResponse)
+          return Observable.throw(errorResponse);
+        }
+      )
+      .subscribe(
+        response => console.log(response)
+      )
+
+  }
+
 }

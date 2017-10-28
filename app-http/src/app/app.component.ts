@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ServersService} from "./servers.service";
+import {Observable} from "rxjs/Observable";
+import {Http} from "@angular/http";
 
 @Component({
   selector: 'app-root',
@@ -8,6 +10,7 @@ import {ServersService} from "./servers.service";
 })
 export class AppComponent implements OnInit {
 
+  appName: Observable<String>;
   servers = [];
   //   {
   //     name: 'Testserver',
@@ -21,14 +24,22 @@ export class AppComponent implements OnInit {
   //   }
   // ];
 
-  constructor(private serversService: ServersService) {}
+  constructor(private http: Http, private serversService: ServersService) {
+  }
 
   ngOnInit() {
+    // this.serversService.invalidRequest();
     this.serversService.getServers()
       .subscribe(
-        (servers : any[]) => this.servers = servers, //console.log(servers),
+        (servers: any[]) => this.servers = servers, //console.log(servers),
         error => console.error(error)
-      )
+      );
+    this.getAppName();
+  }
+
+  getAppName() {
+    this.appName = this.http.get('https://udemy-ng-http-2866c.firebaseio.com/appName.json')
+      .map(response => response.json());
   }
 
   onAddServer(name: string) {

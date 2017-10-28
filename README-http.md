@@ -75,3 +75,40 @@ getServers() : Observable<any> {
       .map(response => response.json());
 }
 ```
+
+## How to catch Http Errors?
+
+1. Use **catch** method of the Observable:
+
+```
+return this.http.get(`${this.baseUrl}/data`)
+      .catch(
+        (errorResponse: Response) => {
+          console.log(errorResponse)
+          return Observable.throw(errorResponse);
+        }
+      )
+```
+
+Catch method takes Response (cause error is a Response) and must return Observable<Response>)
+
+## How to use "async" pipe with Http Request?
+
+1. Create a method that performs Http Request and **map**s the Observable<T> to T:
+
+```
+getAppName() {
+    this.appName = this.http.get('https://udemy-ng-http-2866c.firebaseio.com/appName.json')
+    .map(response => response.json());
+}
+
+```
+
+2. Set the variable of type Observable<T> to the response.
+3. Create a pipe in the template HTML:
+
+```
+<h1>{{ appName | async }}</h1>
+```
+
+**async** automatically subscribes to the request so there is no need for explicit subscription to the Observable in order to perfom the Http Request.
